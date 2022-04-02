@@ -16,25 +16,25 @@ module.exports = function(api) {
         }
     })
     api.loadSource(async actions => {
-        // const { data } = await axios.get('http://localhost:1337/events')
-        const { data } = await axios.get(`${process.env.STRAPI_URL}/events/`)
+        const { post } = await axios.get('http://localhost:1337/api/events')
+            // const { data } = await axios.get(`${process.env.STRAPI_URL}/events/`)
         const collection = actions.addCollection({
             typeName: 'Event'
                 // path: '/events/:id'
         })
 
-        for (const event of data) {
+        for (const event in post) {
             collection.addNode({
-                id: post.id,
-                // path: '/events/' + event.id,
-                title: event.title,
-                description: event.description,
-                price: event.price,
-                date: event.date,
-                duration: event.duration,
-                thumbnail: event.image.formats.thumbnail.url,
-                image: event.image.formats.medium.url,
-                // category: event.categories[0].id
+                id: event.id,
+                title: event.title
+                    // "attributes": {
+                    //     title: event.title,
+                    //     description: event.description,
+                    //     date: event.date,
+                    //     duration: event.duration,
+                    //     price: event.price
+                    // }
+
             })
         }
     })
